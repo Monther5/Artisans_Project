@@ -50,6 +50,12 @@ class TaskController extends Controller
         $user = Task::findOrFail($id)->user;
         return response()->json($user, 200);
     }
+    public function AddCategoryToTask( Request $request,$taskId)
+    {
+        $task = Task::findOrFail($taskId);
+        $task->categories()->attach($request->category_id);
+        return response()->json('create sucfully ', 200);
+    }
 
 
 }

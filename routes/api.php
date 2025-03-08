@@ -9,18 +9,28 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
 Route::post('tasks',[TaskController::class,'store'] );
 Route::get('tasks',[TaskController::class,'index'] );
 Route::put('tasks/{id}',[TaskController ::class,'update']);
 Route::get('tasks/{id}',[TaskController::class,'show'] );
 Route::delete('tasks/{id}',[TaskController::class,'destroy'] );
+Route::get('task/{id}/user', [TaskController::class,'getTaskuser'] );
+Route::post('task/{id}/category', [TaskController::class,'AddCategoryToTask'] );
 // Route::apiResource('tasks', TaskController::class);
-Route::post('Profile', [ProfileController::class,'store'] );
 
+
+Route::put('Profile/{id}', action: [ProfileController::class,'update'] );
+Route::post('Profile', [ProfileController::class,'store'] );
 Route::get('Profile/{id}', [ProfileController::class,'show'] );
 
+
+Route::post('register', [UserController::class,'register'] );
+Route::post('login', [UserController::class,'login'] );
+Route::post('logout', [UserController::class,'logout'] )->middleware('auth:sanctum');
+
 Route::get('user/{id}/profile', [UserController::class,'getProfile'] );
-Route::put('Profile/{id}', [ProfileController::class,'update'] );
 Route::get('user/{id}/task', [UserController::class,'getTask'] );
-Route::get('task/{id}/user', [TaskController::class,'getTaskuser'] );
+
+
 
