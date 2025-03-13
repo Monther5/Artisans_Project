@@ -10,7 +10,7 @@ class Task extends Model
 {
 
     use HasFactory;
-    protected $fillable = ['title','description','paiority','user_id'];
+    protected $fillable = ['title','description','priority','user_id'];
     protected $table = 'tasks';
     public function user()
     {
@@ -19,5 +19,9 @@ class Task extends Model
     public function categories()
     {
         return $this->belongsToMany(Categorie::class);
+    }
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'favorites_task', 'task_id', 'user_id');
     }
 }

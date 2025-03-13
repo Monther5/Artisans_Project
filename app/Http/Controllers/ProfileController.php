@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use App\Http\Requests\StoreProfileRequest;
@@ -22,7 +23,15 @@ class ProfileController extends Controller
     }
     public function store(StoreProfileRequest $request)
     {
-        $data=  Profile::create($request->validated());
+        $UserId=Auth::user()->id;
+        $request->validated()['user_id']=$UserId;
+       $validated= $request->validated();
+       if($request->hasFile('profile_picture')){
+$path=$request->file('profile_picture')->store('my picture','public'); 
+
+$validated['profile_picture']=$path;
+}
+        $data=  Profile::create($validated);
 
         return response()->json($data, 201);
     }
